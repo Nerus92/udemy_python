@@ -1,3 +1,5 @@
+import re
+
 class TicTacToe(object):
 
     def __init__(self):
@@ -35,7 +37,7 @@ class TicTacToe(object):
         if self.player_turn == 1:
             self.player_turn = 2
         else:
-            self.player_turn == 1
+            self.player_turn = 1
 
     def no_winner(self):
         return True
