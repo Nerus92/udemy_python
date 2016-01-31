@@ -31,7 +31,11 @@ class TicTacToe(object):
             counter += 1
 
     def invalid_move(self, input):
-        return True
+        matchObj = re.match(r'[1-3]\s[1-3]', input)
+        if matchObj:
+            return False
+        else:
+            return True
 
     def change_player_turn(self):
         if self.player_turn == 1:
