@@ -1,5 +1,21 @@
 import re
 
+
+def is_invalid_move(input):
+    if does_input_match_move_pattern(input):
+        return False
+    else:
+        return True
+
+
+def does_input_match_move_pattern(input):
+    match_obj = re.match(r'[1-3]\s[1-3]', input)
+    if match_obj:
+        return True
+    else:
+        return False
+
+
 class TicTacToe(object):
 
     def __init__(self):
@@ -13,7 +29,7 @@ class TicTacToe(object):
             if input == "quit":
                 self.user_requested_exit = True
                 break
-            if self.invalid_move(input):
+            if is_invalid_move(input):
                 print 'Sorry, you cannot play this'
                 continue
 
@@ -29,13 +45,6 @@ class TicTacToe(object):
             if counter < 2:
                 self.print_line_separation()
             counter += 1
-
-    def invalid_move(self, input):
-        matchObj = re.match(r'[1-3]\s[1-3]', input)
-        if matchObj:
-            return False
-        else:
-            return True
 
     def change_player_turn(self):
         if self.player_turn == 1:
