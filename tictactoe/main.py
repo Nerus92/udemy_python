@@ -2,18 +2,11 @@ import re
 
 
 def is_invalid_move(input):
-    if does_input_match_move_pattern(input):
-        return False
-    else:
-        return True
-
-
-def does_input_match_move_pattern(input):
     match_obj = re.match(r'[1-3]\s[1-3]', input)
     if match_obj:
-        return True
+        return False 
     else:
-        return False
+        return True
 
 
 class TicTacToe(object):
@@ -45,8 +38,6 @@ class TicTacToe(object):
     def add_player_move(self, input):
         row = int(input[0]) - 1
         column = int(input[1]) - 1
-        print row
-        print column
         if self.player_turn==1 :
             self.grid[row][column] = self.player1_marker
         else :
