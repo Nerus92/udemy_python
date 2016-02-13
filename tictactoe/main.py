@@ -33,10 +33,24 @@ class TicTacToe(object):
                 print 'Sorry, you cannot play this'
                 continue
 
+            self.add_player_move(input.split(" "))
+
             self.change_player_turn()
+
+            self.print_grid()
 
     def game_continues(self):
         return self.no_winner() and self.grid_not_full() and self.user_wants_to_continue()
+
+    def add_player_move(self, input):
+        row = int(input[0]) - 1
+        column = int(input[1]) - 1
+        print row
+        print column
+        if self.player_turn==1 :
+            self.grid[row][column] = self.player1_marker
+        else :
+            self.grid[row][column] = self.player2_marker
 
     def print_grid(self):
         counter = 0
@@ -74,7 +88,7 @@ class TicTacToe(object):
     def init_game(self):
         self.user_requested_exit = False
         self.player_turn = 1
-        self.grid = 3 * [3 * [" "]]
+        self.grid = [[" "] * 3 for n in range(3)]
         self.player1_marker = "X"
         self.player2_marker = "O"
 
