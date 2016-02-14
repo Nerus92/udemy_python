@@ -17,6 +17,7 @@ class TicTacToe(object):
         print 'Here is the grid'
         while self.game_continues():
             self.print_grid()
+            self.change_player_turn()
             print 'Alright Player {}, your turn:'.format(self.player_turn)
             input = raw_input()
             if input == "quit":
@@ -24,18 +25,21 @@ class TicTacToe(object):
                 break
             if is_invalid_move(input):
                 print 'Sorry, you cannot play this'
+                self.change_player_turn()
                 continue
 
             if not self.add_player_move(input.split(" ")):
                 print 'Sorry, you cannot play this'
+                self.change_player_turn()
                 continue
-
-            self.change_player_turn()
 
         if self.user_requested_exit :
             print "Bye bye!"
-        elif self.grid_full :
-            print "Game over, nobody wins"
+        elif self.is_a_winner :
+            self.print_grid()
+            print "Congratulation Player {}, you won!".format(self.player_turn)
+        else :
+            print "Game Over, nobody wins."
 
     def game_continues(self):
         return self.no_winner() and self.grid_not_full() and self.user_wants_to_continue()
@@ -67,7 +71,35 @@ class TicTacToe(object):
             self.player_turn = 1
 
     def no_winner(self):
-        return True
+        if not self.is_diagonal_winner() and not self.is_vertical_winner() and not self.is_horizontal_winner() :
+            return True
+        self.is_a_winner = True
+        return False
+
+    def is_diagonal_winner(self):
+        str1 = self.grid[0][0] + self.grid[1][1] + self.grid[2][2]
+        str2 = self.grid[0][2] + self.grid[1][1] + self.grid[2][0]
+        if (len(str1.replace(" ", "")) == 3 and str1[0] == str1[1] and str1[0] == str1[2]) or (len(str2.replace(" ", "")) == 3 and str2[0] == str2[1] and str2[0] == str2[2]) :
+            return True
+        return False
+
+    def is_vertical_winner(self):
+        for column in range(0, 2) :
+            str = ""
+            for line in self.grid :
+                str = str + line[column]
+            if len(str.replace(" ", "")) == 3 and str[0] == str[1] and str[0] == str[2] :
+                return True
+        return False
+
+    def is_horizontal_winner(self):
+        for line in self.grid :
+            str = ""
+            for element in line :
+                str = str + element
+            if len(str.replace(" ", "")) == 3 and str[0] == str[1] and str[0] == str[2] :
+                return True
+        return False
 
     def user_wants_to_continue(self):
         return not self.user_requested_exit
@@ -88,9 +120,9 @@ class TicTacToe(object):
 
     def init_game(self):
         self.user_requested_exit = False
-        self.player_turn = 1
+        self.player_turn = 2
         self.grid = [[" "] * 3 for n in range(3)]
-        self.grid_full = False
+        self.is_a_winner = False
         self.player1_marker = "X"
         self.player2_marker = "O"
 
