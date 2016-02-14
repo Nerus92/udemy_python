@@ -32,6 +32,11 @@ class TicTacToe(object):
 
             self.change_player_turn()
 
+        if self.user_requested_exit :
+            print "Bye bye!"
+        elif self.grid_full :
+            print "Game over, nobody wins"
+
     def game_continues(self):
         return self.no_winner() and self.grid_not_full() and self.user_wants_to_continue()
 
@@ -72,6 +77,7 @@ class TicTacToe(object):
             if " " in line:
                 return True
         else:
+            self.grid_full = True
             return False
 
     def print_line(self, line):
@@ -84,6 +90,7 @@ class TicTacToe(object):
         self.user_requested_exit = False
         self.player_turn = 1
         self.grid = [[" "] * 3 for n in range(3)]
+        self.grid_full = False
         self.player1_marker = "X"
         self.player2_marker = "O"
 
